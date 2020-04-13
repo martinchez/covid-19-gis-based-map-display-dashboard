@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="assets/img/covid.png">
+    <title>
+        CoronaVirus || Home
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800" rel="stylesheet" />
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <!-- Nucleo Icons -->
+    <link href="assets/css/nucleo-icons.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link href="assets/css/black-dashboard.css?v=1.0.0" rel="stylesheet" />
+    <!-- CSS Just for demo purpose, don't include it in your project 
+  <link href="../assets/demo/demo.css" rel="stylesheet" />-->
+    <!--links to leaflet css-->
+    <link rel="stylesheet" href="assets/css/leaflet.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <!--links to leaflet css-->
+    <!--leafletjs files-->
+    <script src="assets/js/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/opencagedata/leaflet-opencage-search@1.3.0/dist/css/L.Control.OpenCageData.Search.min.css" />
+    <script
+        src="https://cdn.jsdelivr.net/gh/opencagedata/leaflet-opencage-search@1.3.0/dist/js/L.Control.OpenCageSearch.min.js"></script>
+    <script src="assets/data/schools.geojson"></script>
+    <script src="assets/data/rivers.geojson"></script>
+    <script src="assets/data/constituencies.geojson"></script>
+    <!--leafletjs files-->
+    <style>
+        #mapid {
+            height: 500px;
+        }
+        .custom-popup .leaflet-popup-content-wrapper {
+        background:#2c3e50;
+        color:#fff;
+        font-size:16px;
+        line-height:24px;
+        }
+        .custom-popup .leaflet-popup-content-wrapper a {
+        color:rgba(255,255,255,0.5);
+        }
+        .custom-popup .leaflet-popup-tip-container {
+        width:30px;
+        height:15px;
+        }
+        .custom-popup .leaflet-popup-tip {
+        border-left:15px solid transparent;
+        border-right:15px solid transparent;
+        border-top:15px solid #2c3e50;
+        }
+    </style>
+    
+</head>
+
+<body class="">
+    <div class="wrapper">
+        <div class="sidebar">
+            <!--
+        Tip 1: You can change the color of the sidebar using: data-color="blue | green | orange | red"
+    -->
+            <div class="sidebar-wrapper">
+                <div class="logo">
+                    <a href="javascript:void(0)" class="simple-text logo-mini">
+                        SD
+                    </a>
+                    <a href="javascript:void(0)" class="simple-text logo-normal">
+                        CoronaVirus
+                    </a>
+                </div>
+                <ul class="nav">
+                    <li class="active ">
+                        <a href="index.html">
+                            <i class="tim-icons icon-pin"></i>
+                            <p>Maps</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="analysis.html">
+                            <i class="tim-icons icon-chart-pie-36"></i>
+                            <p>Analysis</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="affected.html">
+                            <i class="tim-icons icon-puzzle-10"></i>
+                            <p>Most Affected Countries</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="news.html">
+                            <i class="tim-icons icon-bell-55"></i>
+                            <p>News</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="report.html">
+                            <i class="tim-icons icon-align-center"></i>
+                            <p>Report An instance</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="aboutus.html">
+                            <i class="tim-icons icon-molecule-40"></i>
+                            <p>About us</p>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main-panel">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-absolute navbar-transparent">
+                <div class="container-fluid">
+                    <div class="navbar-wrapper">
+                        <div class="navbar-toggle d-inline">
+                            <button type="button" class="navbar-toggler">
+                                <span class="navbar-toggler-bar bar1"></span>
+                                <span class="navbar-toggler-bar bar2"></span>
+                                <span class="navbar-toggler-bar bar3"></span>
+                            </button>
+                        </div>
+                        <a class="navbar-brand" href="javascript:void(0)">Dashboard</a>
+                    </div>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                        <span class="navbar-toggler-bar navbar-kebab"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navigation">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="dropdown nav-item">
+                                <a href="javascript:void(0)" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                                    <div class="notification d-none d-lg-block d-xl-block"></div>
+                                    <i class="tim-icons icon-sound-wave"></i>
+                                    <p class="d-lg-none">
+                                        Notifications
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="dropdown nav-item">
+                                <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
+                                    <div class="photo">
+                                        <img src="assets/img/anime3.png" alt="Profile Photo">
+                                    </div>
+                                </a>
+                            </li>
+                            <li class="separator d-lg-none"></li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="modal modal-search fade" id="searchModal" tabindex="-1" role="dialog"
+                aria-labelledby="searchModal" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="SEARCH">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <i class="tim-icons icon-simple-remove"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End Navbar -->
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-plain">
+                            <div class="card-header">
+                                <!-- leaflet Maps-->
+                            </div>
+                            <div class="card-body">
+                                <div class="custom-popup" id="mapid">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--the theme color changer-->
+    <div class="fixed-plugin">
+        <div class="dropdown show-dropdown">
+            <a href="#" data-toggle="dropdown">
+                <i class="fa fa-cog fa-2x"> </i>
+            </a>
+            <ul class="dropdown-menu">
+                <li class="header-title"> Customize Background</li>
+                <li class="adjustments-line">
+                    <a href="javascript:void(0)" class="switch-trigger background-color">
+                        <div class="badge-colors text-center">
+                            <span class="badge filter badge-primary active" data-color="primary"></span>
+                            <span class="badge filter badge-info" data-color="blue"></span>
+                            <span class="badge filter badge-success" data-color="green"></span>
+                        </div>
+                        <div class="clearfix"></div>
+                    </a>
+                </li>
+                <li class="adjustments-line text-center color-change">
+                    <span class="color-label">LIGHT MODE</span>
+                    <span class="badge light-badge mr-2"></span>
+                    <span class="badge dark-badge ml-2"></span>
+                    <span class="color-label">DARK MODE</span>
+                </li>
+                <li class="button-container">
+                    <a href="https://servdev.co.ke/" target="_blank" class="btn btn-primary btn-block btn-round">Hire
+                        us</a>
+                    <a href="https://twitter.com/MartinShakesp9" target="_blank"
+                        class="btn btn-default btn-block btn-round">
+                        Follow us
+                    </a>
+                </li>
+                <li class="header-title">Thank you for Visiting</li>
+                <li class="button-container text-center">
+                    <button href="https://twitter.com/MartinShakesp9" id="twitter" class="btn btn-round btn-info"><i
+                            class="fab fa-twitter"></i> &middot; </button>
+                    <button id="facebook" class="btn btn-round btn-info"><i class="fab fa-facebook-f"></i> &middot;
+                    </button>
+                    <br>
+                    <br>
+                    <a class="github-button" href="https://www.linkedin.com/in/martin-chege-6937ba14b/"
+                        data-icon="octicon-star" data-size="large" data-show-count="true"
+                        aria-label="Star ntkme/github-buttons on GitHub">Star</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--Script to initialize the leaflet map-->
+    <script>
+        //getting the user current location and setting it as the center of the map
+       
+            
+            //alert(latlng);
+
+            var map = L.map('mapid').setView([-0.468287, 37.147522], 1.5);
+
+            L.tileLayer('https://tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}.png?apikey=bbf3a740c553483ea26a4960622d03b6', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://mapbox.com">Mapbox</a>'
+            }).addTo(map);
+            
+            //adding locations of areas with the affected corona virus..
+
+            var circle = L.circle([36.978342, 98.844119], {
+                color: 'r#f03',
+                fillColor: 'red',
+                fillOpacity: 1,
+                radius: 980050
+            }).bindPopup(
+                "China Confirmed: 81,588"
+                //"Deaths: 6,077",
+                //"Recovered: 7,432",
+                //"Active: 50,418"
+            ).addTo(map);
+            //########################################################################
+            //European countries
+            //########################################################################
+            
+            var circle = L.circle([43.687924, 10.880925], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 1,
+                    radius: 280050
+                }).bindPopup(
+                            "Italy Confirmed: 63,927"
+                            //"Deaths: 6,077",
+                            //"Recovered: 7,432",
+                            //"Active: 50,418"
+                            ).addTo(map);
+            var circle = L.circle([47.814971, 14.672944], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.5,
+                    radius: 160050
+                }).bindPopup(
+                    "Austria Confirmed:4971"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            var circle = L.circle([47.285439, 1.942661], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "France Confirmed: 22,304"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                
+            //Saudi Arabia
+            var circle = L.circle([24.535217, 45.880568], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 200050
+                    }).bindPopup(
+                        "Saudi Arabia Confirmed: 767"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+            //########################################################################
+            //African countries
+            //########################################################################
+            //Kenya
+            var circle = L.circle([0.242009, 37.779737], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "kenya Confirmed: 25"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Uganda
+            var circle = L.circle([1.208694, 32.658618], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Uganda Confirmed: 9"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Tanzania
+            var circle = L.circle([-5.663727, 34.860046], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Tanzania Confirmed: 12"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Rwanda
+            var circle = L.circle([-1.812848, 30.147245], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 80050
+                }).bindPopup(
+                    "Rwanda Confirmed: 40"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //South africa
+            var circle = L.circle([-28.001019, 23.303700], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "South Afica Confirmed: 554"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //zimbambwe
+            var circle = L.circle([-18.732450, 29.861655], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "zimbabwe Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //madagascar
+                var circle = L.circle([-19.852616, 46.876647], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "madagascar Confirmed: 17"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Ethipia
+                var circle = L.circle([8.947870, 38.151909], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Ethiopia Confirmed: 12"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //mozambique
+                var circle = L.circle([-16.787413, 35.990504], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "mozambique Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //djibouti
+                var circle = L.circle([11.956264, 42.813207], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Djibouti Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Egypt
+                var circle = L.circle([-28.001019, 23.303700], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Egypt Confirmed: 402"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Eritrea
+                var circle = L.circle([15.610735, 38.323235], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Eritrea Confirmed: 1"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //chad
+                var circle = L.circle([15.686471, 18.473509], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "chad Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Libya
+            var circle = L.circle([27.683879, 16.778515], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 200050
+                    }).bindPopup(
+                        "Libya Confirmed: 1"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+            //Central African Republic
+                var circle = L.circle([6.753067, 19.555797], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Central African Republic Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //cameroon
+                var circle = L.circle([4.878576, 11.638253], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "cameroon Confirmed: 66"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Congo
+                var circle = L.circle([-3.149894, 21.152613], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Congo Confirmed: 45"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Nigeria
+                var circle = L.circle([9.483623, 7.033084], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Nigeria: 44"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Niger
+                var circle = L.circle([18.131660, 9.293742], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Niger Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Algeria
+                var circle = L.circle([27.954582, 0.898431], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Algeria Confirmed: 264"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Tunisia
+                var circle = L.circle([33.709009, 9.196673], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Tunisia Confirmed: 144"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //morroco
+                var circle = L.circle([32.522019, -5.603870], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "morroco Confirmed: 170"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Burkina Faso
+                var circle = L.circle([12.570971, -1.972100], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Burkina Faso Confirmed: 144"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Ghana
+                var circle = L.circle([7.575607, -1.708087], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Ghana Confirmed: 53"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Togo
+                var circle = L.circle([8.212650, 1.070081], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Togo Confirmed: 20"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Benin
+                var circle = L.circle([10.155775, 2.283365], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Benin Confirmed: 6"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Cote d'Ivoire
+                var circle = L.circle([8.183902, -6.093425], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Cote d'Ivoire Confirmed: 73"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Liberia
+                var circle = L.circle([6.547881, -9.610314], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Liberia Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Guinea
+                var circle = L.circle([11.221365, -11.233244], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Guinea Confirmed: 4"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Senegal
+                var circle = L.circle([14.904011, -14.751528], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Senegal Confirmed: 86"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Gambia 
+                var circle = L.circle([13.580588, -15.342355], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Gambia Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Mauritania
+                var circle = L.circle([20.820997, -10.325633], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Mauritania Confirmed: 2"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //
+                var circle = L.circle([6.547881, -9.610314], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Liberia Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Angola
+                var circle = L.circle([-12.968306, 17.250482], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Angola Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Zambia
+                var circle = L.circle([-15.146698, 26.012969], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Zambia Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Eswatini
+                var circle = L.circle([-26.444438, 31.527900], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Eswatini Confirmed: 4"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Namibia
+                var circle = L.circle([-21.612126, 17.283259], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Namibia Confirmed: 7"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Sudan
+                    var circle = L.circle([15.048329, 29.202132], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 200050
+                    }).bindPopup(
+                        "Sudam Confirmed: 3"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+            //Egypt
+                var circle = L.circle([25.573208, 29.719477], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Egypt Confirmed: 402"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //
+                var circle = L.circle([6.547881, -9.610314], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Liberia Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //##################################################################
+                //END OF AFRICAN COUNTRIES
+            //##################################################################
+
+
+
+        //##################################################################
+                //European  COUNTRIES
+        //##################################################################
+            //spain
+                var circle = L.circle([40.296035, -4.189047], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 300050
+                }).bindPopup(
+                    "spain Confirmed: 42,058"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //portugal
+                var circle = L.circle([38.925606, -8.148319], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 150050
+                }).bindPopup(
+                    "Portugal Confirmed: 2,362"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Switzerland
+                var circle = L.circle([46.897873, 8.113749], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 100050
+                }).bindPopup(
+                    "Switzerland Confirmed: 9,877"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Germany
+                var circle = L.circle([51.543040, 10.316536], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Germany Confirmed: 32,991"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Netherlands
+                var circle = L.circle([52.386609, 5.629108], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 100050
+                }).bindPopup(
+                    "Netherlands Confirmed: 5,560"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Czechia
+                var circle = L.circle([49.888402, 15.088386], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 90050
+                }).bindPopup(
+                    "Czechia Confirmed: 1,394"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Poland
+                var circle = L.circle([52.273526, 18.865284], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Poland Confirmed: 901"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //
+                var circle = L.circle([6.547881, -9.610314], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 100050
+                }).bindPopup(
+                    "Liberia Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Denmark
+                var circle = L.circle([56.148811, 9.077931], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 150050
+                }).bindPopup(
+                    "Denmark Confirmed:  1,591"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Slovakia
+                var circle = L.circle([48.853519, 19.774337], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 90050
+                }).bindPopup(
+                    "Slovakia Confirmed: 204"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Hungary
+                var circle = L.circle([47.154206, 19.239055], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 90050
+                }).bindPopup(
+                    "Hungary Confirmed: 226"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Slovenia
+                var circle = L.circle([46.155184, 14.437603], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 90050
+                }).bindPopup(
+                    "Slovenia Confirmed: 480"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Croatia
+                var circle = L.circle([45.157667, 15.360382], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 20050
+                }).bindPopup(
+                    "Croatia Confirmed: 382"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Bosnia
+                var circle = L.circle([44.131638, 17.901317], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 60050
+                }).bindPopup(
+                    "Bosnia Confirmed: 168"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Romania
+                var circle = L.circle([46.067732, 24.638632], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 60050
+                }).bindPopup(
+                    "romania Confirmed: 794"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Maldova
+                var circle = L.circle([47.264382, 28.519631], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 50050
+                }).bindPopup(
+                    "Maldova Confirmed: 3 125"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Ukraine
+                var circle = L.circle([49.761750, 30.314957], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 50050
+                }).bindPopup(
+                    "Ukraine Confirmed: 102"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Belarus
+                var circle = L.circle([53.633014, 28.170649], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 20050
+                }).bindPopup(
+                    "Belarua Confirmed: 81"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Lithuania
+                var circle = L.circle([55.346774, 24.035619], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 50050
+                }).bindPopup(
+                    "Lithuania Confirmed: 209"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //United Kingdom
+                var circle = L.circle([6.547881, -9.610314], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 80050
+                }).bindPopup(
+                    "United Kingdom Confirmed: 8,077"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Norway
+                var circle = L.circle([60.891445, 8.254542], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 50050
+                }).bindPopup(
+                    "Norway Confirmed: 2,866"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Sweden
+                var circle = L.circle([65.498919, 17.992590], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 50050
+                }).bindPopup(
+                    "Sweden Confirmed: 2,299"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Finland
+                var circle = L.circle([63.878424, 26.882882], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Finland Confirmed: 792"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Russia
+                var circle = L.circle([60.026046, 91.098317], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 100050
+                }).bindPopup(
+                    "Russia Confirmed: 495"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Turkey
+                var circle = L.circle([39.456672, 34.127631], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 50050
+                }).bindPopup(
+                    "Turkey Confirmed: 1,872"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Cyprus
+                var circle = L.circle([34.970305, 33.177258], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 9050
+                }).bindPopup(
+                    "Cyprus Confirmed: 124"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Israel
+                var circle = L.circle([31.405461, 35.990457], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Israel Confirmed: 2030"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Lebanon
+                    var circle = L.circle([33.918638, 35.830166], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 9950
+                    }).bindPopup(
+                        "Lebanon Confirmed: 318"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //Syria
+                    var circle = L.circle([35.181349, 38.527066], {
+                        color: 'r#f03',
+                        fillColor: 'green',
+                        fillOpacity: 0.8,
+                        radius: 8050
+                    }).bindPopup(
+                        "Syria Confirmed: 1"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //Iraq
+                    var circle = L.circle([33.287163, 43.679656], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 30050
+                    }).bindPopup(
+                        "Iraq Confirmed: 316"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //Iran
+                    var circle = L.circle([32.493738, 55.165525], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 400050
+                    }).bindPopup(
+                        "Iran Confirmed: 24,811"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                //Armenia
+                    var circle = L.circle([40.430553, 44.796349], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 100050
+                    }).bindPopup(
+                        "Armweia Confirmed: 265"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //Pakistan
+                    var circle = L.circle([29.131991, 68.936652], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 280050
+                    }).bindPopup(
+                        "Pakistan Confirmed: 1000"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //Afghanistan
+                    var circle = L.circle([34.307337, 65.713382], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 10050
+                    }).bindPopup(
+                        "Afghanistan Confirmed: 74"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //India
+                    var circle = L.circle([23.839056, 78.376445], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 200050
+                    }).bindPopup(
+                        "India Confirmed: 562"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                //Bangladesh
+                    var circle = L.circle([23.925034, 90.152853], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 150050
+                    }).bindPopup(
+                        "Bangladesh Confirmed: 39"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //Thailand
+                    var circle = L.circle([16.241849, 100.830372], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 200050
+                    }).bindPopup(
+                        "Thailand Confirmed: 934"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //Taiwan
+                    var circle = L.circle([23.683093, 120.947471], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 240050
+                    }).bindPopup(
+                        "Taiwan Confirmed: 215"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //South Korea
+                    var circle = L.circle([36.286367, 127.817516], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 300050
+                    }).bindPopup(
+                        "South Korea Confirmed: 9,137"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                //Japan
+                    var circle = L.circle([35.838917, 138.625655], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 300050
+                    }).bindPopup(
+                        "Japan Confirmed: 1,193"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //Mongolia
+                    var circle = L.circle([47.352344, 102.495172], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 200050
+                    }).bindPopup(
+                        "Mongolia Confirmed: 10"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //Philippines
+                    var circle = L.circle([13.144439, 121.697025], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 300050
+                    }).bindPopup(
+                        "Philippines Confirmed: 552"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //Cambodia
+                    var circle = L.circle([12.512060, 104.822819], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 100050
+                    }).bindPopup(
+                        "Cambodia Confirmed: 93"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //Vietnam
+                        var circle = L.circle([13.821990, 108.637430], {
+                            color: 'r#f03',
+                            fillColor: 'red',
+                            fillOpacity: 0.8,
+                            radius: 200050
+                        }).bindPopup(
+                            "Vietnam Confirmed: 134"
+                            //"Deaths: 6,077",
+                            //"Recovered: 7,432",
+                            //"Active: 50,418"
+                        ).addTo(map);
+                        //Malaysia
+                        var circle = L.circle([4.264614, 102.316664], {
+                            color: 'r#f03',
+                            fillColor: 'red',
+                            fillOpacity: 0.8,
+                            radius: 200050
+                        }).bindPopup(
+                            "Malysia Confirmed: 1796"
+                            //"Deaths: 6,077",
+                            //"Recovered: 7,432",
+                            //"Active: 50,418"
+                        ).addTo(map);
+                        //Singapore
+                        var circle = L.circle([1.313996, 103.814024], {
+                            color: 'r#f03',
+                            fillColor: 'red',
+                            fillOpacity: 0.8,
+                            radius: 240050
+                        }).bindPopup(
+                            "Singapore Confirmed: 558"
+                            //"Deaths: 6,077",
+                            //"Recovered: 7,432",
+                            //"Active: 50,418"
+                        ).addTo(map);
+                        //Indonesia
+                        var circle = L.circle([-2.231242, 120.411802], {
+                            color: 'r#f03',
+                            fillColor: 'red',
+                            fillOpacity: 0.8,
+                            radius: 200050
+                        }).bindPopup(
+                            "Indonesia Confirmed: 686"
+                            //"Deaths: 6,077",
+                            //"Recovered: 7,432",
+                            //"Active: 50,418"
+                        ).addTo(map);
+                        //papua
+                        var circle = L.circle([-5.187370, 138.933093], {
+                            color: 'r#f03',
+                            fillColor: 'red',
+                            fillOpacity: 0.8,
+                            radius: 200050
+                        }).bindPopup(
+                            "Papua Confirmed: 1"
+                            //"Deaths: 6,077",
+                            //"Recovered: 7,432",
+                            //"Active: 50,418"
+                        ).addTo(map);
+                    //Autraria
+                        var circle = L.circle([-26.598936, 133.601035], {
+                            color: 'r#f03',
+                            fillColor: 'red',
+                            fillOpacity: 0.8,
+                            radius: 600050
+                        }).bindPopup(
+                            "Austraria Confirmed: 2,318"
+                            //"Deaths: 6,077",
+                            //"Recovered: 7,432",
+                            //"Active: 50,418"
+                        ).addTo(map);
+                        //Iceland
+                        var circle = L.circle([64.796695, -18.566980], {
+                            color: 'r#f03',
+                            fillColor: 'red',
+                            fillOpacity: 0.8,
+                            radius: 200050
+                        }).bindPopup(
+                            "Iceland Confirmed: 648"
+                            //"Deaths: 6,077",
+                            //"Recovered: 7,432",
+                            //"Active: 50,418"
+                        ).addTo(map);
+                        //United states of America
+                        var circle = L.circle([40.291323, -101.320462], {
+                            color: 'r#f03',
+                            fillColor: 'red',
+                            fillOpacity: 0.8,
+                            radius: 890050
+                        }).bindPopup(
+                            "United states of America Confirmed: 55,225 "
+                            //"Deaths: 6,077",
+                            //"Recovered: 7,432",
+                            //"Active: 50,418"
+                        ).addTo(map);
+                        //Brazil
+                        var circle = L.circle([-10.696304, -49.269870], {
+                            color: 'r#f03',
+                            fillColor: 'red',
+                            fillOpacity: 0.8,
+                            radius: 800050
+                        }).bindPopup(
+                            "Brazil Confirmed: 2247"
+                            //"Deaths: 6,077",
+                            //"Recovered: 7,432",
+                            //"Active: 50,418"
+                        ).addTo(map);
+                        //Ecuador
+                        var circle = L.circle([0.959773, -78.663580], {
+                            color: 'r#f03',
+                            fillColor: 'red',
+                            fillOpacity: 0.8,
+                            radius: 200050
+                        }).bindPopup(
+                            "Ecuador Confirmed: 1080"
+                            //"Deaths: 6,077",
+                            //"Recovered: 7,432",
+                            //"Active: 50,418"
+                        ).addTo(map)
+                //Peru
+                    var circle = L.circle([-9.043358, -75.725445], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 200050
+                    }).bindPopup(
+                        "peru Confirmed: 416"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //Chile
+                    var circle = L.circle([-33.412885, -70.673821], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 200050
+                    }).bindPopup(
+                        "Chile Confirmed: 992"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+                    //Paraguay
+                    var circle = L.circle([-23.632222, -58.024366], {
+                        color: 'r#f03',
+                        fillColor: 'red',
+                        fillOpacity: 0.8,
+                        radius: 200050
+                    }).bindPopup(
+                        "Paraguay Confirmed: 37"
+                        //"Deaths: 6,077",
+                        //"Recovered: 7,432",
+                        //"Active: 50,418"
+                    ).addTo(map);
+            //Uruguay
+                var circle = L.circle([-32.480144, -56.095185], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Uruguay Confirmed: 189"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Bolivia
+                var circle = L.circle([-16.091527, -64.950463], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Bolivia Confirmed: 32"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Argentina
+                var circle = L.circle([-32.727753, -64.521834], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Argentina Confirmed: 387"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //Canada
+                var circle = L.circle([61.142787, -112.127999], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 900050
+                }).bindPopup(
+                    "Canada Confirmed: 2,792"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //Mexico
+                var circle = L.circle([23.293080, -102.562052], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Mexico Confirmed: 405"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //
+                var circle = L.circle([6.547881, -9.610314], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Liberia Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //
+                var circle = L.circle([6.547881, -9.610314], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Liberia Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //
+                var circle = L.circle([6.547881, -9.610314], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Liberia Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //
+                var circle = L.circle([6.547881, -9.610314], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Liberia Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+            //
+                var circle = L.circle([6.547881, -9.610314], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Liberia Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //
+                var circle = L.circle([6.547881, -9.610314], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Liberia Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+                //
+                var circle = L.circle([6.547881, -9.610314], {
+                    color: 'r#f03',
+                    fillColor: 'red',
+                    fillOpacity: 0.8,
+                    radius: 200050
+                }).bindPopup(
+                    "Liberia Confirmed: 3"
+                    //"Deaths: 6,077",
+                    //"Recovered: 7,432",
+                    //"Active: 50,418"
+                ).addTo(map);
+    </script>
+    <!--End of Script to initialize the leaflet map-->
+    <!--End the theme color changer-->
+    <!--   Core JS Files   -->
+    <script src="assets/js/core/jquery.min.js"></script>
+    <script src="assets/js/core/popper.min.js"></script>
+    <script src="assets/js/core/bootstrap.min.js"></script>
+    <script src="assets/js/plugins/perfect-scrollbar.jquery.min.js"></script>
+    <!--  Google Maps Plugin    -->
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyALDKiYKr1qgCrCg-bBxZQAEAme5TssvLA"></script>-->
+    <!-- Chart JS -->
+    <script src="assets/js/plugins/chartjs.min.js"></script>
+    <!--  Notifications Plugin    -->
+    <script src="assets/js/plugins/bootstrap-notify.js"></script>
+    <!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="assets/js/black-dashboard.min.js?v=1.0.0"></script>
+    <!-- Black Dashboard DEMO methods, don't include it in your project! -->
+    <script src="assets/demo/demo.js"></script>
+    <script>
+        $(document).ready(function () {
+            $().ready(function () {
+                $sidebar = $('.sidebar');
+                $navbar = $('.navbar');
+                $main_panel = $('.main-panel');
+
+                $full_page = $('.full-page');
+
+                $sidebar_responsive = $('body > .navbar-collapse');
+                sidebar_mini_active = true;
+                white_color = false;
+
+                window_width = $(window).width();
+
+                fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+
+
+                $('.fixed-plugin a').click(function (event) {
+                    if ($(this).hasClass('switch-trigger')) {
+                        if (event.stopPropagation) {
+                            event.stopPropagation();
+                        } else if (window.event) {
+                            window.event.cancelBubble = true;
+                        }
+                    }
+                });
+
+                $('.fixed-plugin .background-color span').click(function () {
+                    $(this).siblings().removeClass('active');
+                    $(this).addClass('active');
+
+                    var new_color = $(this).data('color');
+
+                    if ($sidebar.length != 0) {
+                        $sidebar.attr('data', new_color);
+                    }
+
+                    if ($main_panel.length != 0) {
+                        $main_panel.attr('data', new_color);
+                    }
+
+                    if ($full_page.length != 0) {
+                        $full_page.attr('filter-color', new_color);
+                    }
+
+                    if ($sidebar_responsive.length != 0) {
+                        $sidebar_responsive.attr('data', new_color);
+                    }
+                });
+
+                $('.switch-sidebar-mini input').on("switchChange.bootstrapSwitch", function () {
+                    var $btn = $(this);
+
+                    if (sidebar_mini_active == true) {
+                        $('body').removeClass('sidebar-mini');
+                        sidebar_mini_active = false;
+                        blackDashboard.showSidebarMessage('Sidebar mini deactivated...');
+                    } else {
+                        $('body').addClass('sidebar-mini');
+                        sidebar_mini_active = true;
+                        blackDashboard.showSidebarMessage('Sidebar mini activated...');
+                    }
+
+                    // we simulate the window Resize so the charts will get updated in realtime.
+                    var simulateWindowResize = setInterval(function () {
+                        window.dispatchEvent(new Event('resize'));
+                    }, 180);
+
+                    // we stop the simulation of Window Resize after the animations are completed
+                    setTimeout(function () {
+                        clearInterval(simulateWindowResize);
+                    }, 1000);
+                });
+
+                $('.switch-change-color input').on("switchChange.bootstrapSwitch", function () {
+                    var $btn = $(this);
+
+                    if (white_color == true) {
+
+                        $('body').addClass('change-background');
+                        setTimeout(function () {
+                            $('body').removeClass('change-background');
+                            $('body').removeClass('white-content');
+                        }, 900);
+                        white_color = false;
+                    } else {
+
+                        $('body').addClass('change-background');
+                        setTimeout(function () {
+                            $('body').removeClass('change-background');
+                            $('body').addClass('white-content');
+                        }, 900);
+
+                        white_color = true;
+                    }
+
+
+                });
+
+                $('.light-badge').click(function () {
+                    $('body').addClass('white-content');
+                });
+
+                $('.dark-badge').click(function () {
+                    $('body').removeClass('white-content');
+                });
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Javascript method's body can be found in assets/js/demos.js
+            demo.initGoogleMaps();
+        });
+    </script>
+    <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+    <script>
+        window.TrackJS &&
+            TrackJS.install({
+                token: "ee6fab19c5a04ac1a32a645abde4613a",
+                application: "black-dashboard-free"
+            });
+    </script>
+</body>
+
+</html>
